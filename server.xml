@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<Server port="8015" shutdown="SHUTDOWN">
+
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="off" />
+  <Listener className="org.apache.catalina.core.JasperListener" />
+  <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" gcDaemonProtection="false"/>
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+  <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
+
+  <GlobalNamingResources>
+
+    <Resource name="UserDatabase" auth="Container"
+              type="org.apache.catalina.UserDatabase"
+              description="User database that can be updated and saved"
+              factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
+              pathname="conf/tomcat-users.xml" />
+  </GlobalNamingResources>
+
+  <Service name="Catalina">
+
+    <Connector port="8080" protocol="HTTP/1.1" server="server"
+               maxThreads="500" minSpareThreads="100"
+               connectionTimeout="20000" 
+               acceptCount="10"
+               maxPostSize="-1"
+               URIEncoding="UTF-8"
+               useBodyEncodingForURI="true"
+               redirectPort="9443" 
+               enableLookups="false" />
+
+    <!-- Connector port="8019" protocol="AJP/1.3"
+               maxThreads="500" minSpareThreads="100"
+               connectionTimeout="20000"
+               acceptCount="10"
+               maxPostSize="-1"
+               URIEncoding="UTF-8"
+               useBodyEncodingForURI="true" 
+               redirectPort="9443" 
+               enableLookups="false" /-->
+
+    <Engine name="Catalina" defaultHost="localhost" jvmRoute="Tomcat">
+
+      <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
+             resourceName="UserDatabase"/>
+
+      <Host name="localhost" appBase="webapps"
+            unpackWARs="true" autoDeploy="false">
+
+        <Context path="" docBase="ROOT" reloadable="false" xmlValidation="false" xmlNamespaceAware="false" />
+
+        <Valve className="org.apache.catalina.valves.AccessLogValve"
+               directory="/app/tomcat/logs/"
+               prefix="access" suffix=".log" pattern="%h %l %u %t %r %s %b %{Referer}i %{User-Agent}i %D"
+               resolveHosts="false" fileDateFormat="yyyy-MM-dd" />
+     </Host>
+    </Engine>
+  </Service>
+</Server>
