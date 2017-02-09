@@ -20,7 +20,7 @@
   <Service name="Catalina">
 
     <Connector port="8080" protocol="HTTP/1.1" server="server"
-               maxThreads="500" minSpareThreads="100"
+               maxThreads="1000" minSpareThreads="100"
                connectionTimeout="20000" 
                acceptCount="10"
                maxPostSize="-1"
